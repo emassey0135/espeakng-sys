@@ -10,12 +10,12 @@ fn main() {
     let os = build_target::target_os().unwrap();
     let dst = Config::new("espeak-ng")
       .define("BUILD_SHARED_LIBS", "OFF")
-      .define("COMPILE_INTONATIONS", "ON")
-      .define("ENABLE_TESTS", "ON")
+      .define("COMPILE_INTONATIONS", "OFF")
+      .define("ENABLE_TESTS", "OFF")
       .define("ESPEAK_BUILD_MANPAGES", "OFF")
-      .define("EXTRA_cmn", "ON")
-      .define("EXTRA_ru", "ON")
-      .define("EXTRA_yue", "ON")
+      .define("EXTRA_cmn", "OFF")
+      .define("EXTRA_ru", "OFF")
+      .define("EXTRA_yue", "OFF")
       .define("USE_ASYNC", "ON")
       .define("USE_MBROLA", "OFF")
       .define("USE_LIBSONIC", "OFF")
@@ -33,6 +33,7 @@ fn main() {
     println!("cargo:rustc-link-lib=static=speechPlayer");
     println!("cargo:rustc-link-search=native={}", dst.join("build").join("src").join("ucd-tools").join(suffix).display());
     println!("cargo:rustc-link-lib=static=ucd");
+    println!("cargo:rustc-link-lib=c++");
     println!("cargo:rerun-if-changed=headers/wrapper.h");
 
     let bindings = bindgen::Builder::default()
