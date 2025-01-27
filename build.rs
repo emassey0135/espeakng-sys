@@ -22,6 +22,10 @@ fn main() {
       .build();
     println!("cargo:rustc-link-search=native={}", dst.join("lib").display());
     println!("cargo:rustc-link-lib=static=espeak-ng");
+    println!("cargo:rustc-link-search=native={}", dst.join("build").join("src").join("speechPlayer").display());
+    println!("cargo:rustc-link-lib=static=speechPlayer");
+    println!("cargo:rustc-link-search=native={}", dst.join("build").join("src").join("ucd-tools").display());
+    println!("cargo:rustc-link-lib=static=ucd");
     println!("cargo:rerun-if-changed=headers/wrapper.h");
 
     let bindings = bindgen::Builder::default()
