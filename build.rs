@@ -3,8 +3,11 @@ extern crate bindgen;
 use std::env;
 use std::path::PathBuf;
 use cmake::Config;
+use build_target;
+use build_target::Os;
 
 fn main() {
+    let os = build_target::target_os().unwrap();
     let dst = Config::new("espeak-ng")
       .define("BUILD_SHARED_LIBS", "OFF")
       .define("COMPILE_INTONATIONS", "ON")
@@ -21,10 +24,14 @@ fn main() {
       .define("USE_SPEECHPLAYER", "ON")
       .build();
     println!("cargo:rustc-link-search=native={}", dst.join("lib").display());
+    let suffix = match os {
+      Os::Windows => "release",
+      _ => "."
+    };
     println!("cargo:rustc-link-lib=static=espeak-ng");
-    println!("cargo:rustc-link-search=native={}", dst.join("build").join("src").join("speechPlayer").display());
+    println!("cargo:rustc-link-search=native={}", dst.join("build").join("src").join("speechPlayer").join(suffix).display());
     println!("cargo:rustc-link-lib=static=speechPlayer");
-    println!("cargo:rustc-link-search=native={}", dst.join("build").join("src").join("ucd-tools").display());
+    println!("cargo:rustc-link-search=native={}", dst.join("build").join("src").join("ucd-tools").join(suffix).display());
     println!("cargo:rustc-link-lib=static=ucd");
     println!("cargo:rerun-if-changed=headers/wrapper.h");
 
