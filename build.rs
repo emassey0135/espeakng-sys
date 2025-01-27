@@ -33,7 +33,9 @@ fn main() {
     println!("cargo:rustc-link-lib=static=speechPlayer");
     println!("cargo:rustc-link-search=native={}", dst.join("build").join("src").join("ucd-tools").join(suffix).display());
     println!("cargo:rustc-link-lib=static=ucd");
-    println!("cargo:rustc-link-lib=c++");
+    if os==Os::MacOs {
+      println!("cargo:rustc-link-lib=c++");
+    }
     println!("cargo:rerun-if-changed=headers/wrapper.h");
 
     let bindings = bindgen::Builder::default()
