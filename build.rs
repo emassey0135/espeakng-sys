@@ -15,7 +15,7 @@ fn main() {
       .define("EXTRA_yue", "ON")
       .define("USE_ASYNC", "ON")
       .define("USE_MBROLA", "OFF")
-      .define("USE_LIBSONIC", "ON")
+      .define("USE_LIBSONIC", "OFF")
       .define("USE_LIBPCAUDIO", "OFF")
       .define("USE_KLATT", "ON")
       .define("USE_SPEECHPLAYER", "ON")
