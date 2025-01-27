@@ -2,9 +2,13 @@ extern crate bindgen;
 
 use std::env;
 use std::path::PathBuf;
+use cmake::Config;
 
 fn main() {
-    println!("cargo:rustc-link-lib=espeak-ng");
+    let dst = Config::new("espeak-ng")
+      .build();
+    println!("cargo:rustc-link-search=native={}", dst.join("lib").display());
+    println!("cargo:rustc-link-lib=static=espeak-ng");
     println!("cargo:rerun-if-changed=headers/wrapper.h");
 
     let bindings = bindgen::Builder::default()
