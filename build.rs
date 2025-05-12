@@ -36,6 +36,9 @@ fn main() {
     if os==Os::MacOs {
       println!("cargo:rustc-link-lib=c++");
     }
+    if os==Os::Linux {
+      println!("cargo:rustc-link-lib=stdc++");
+    }
     println!("cargo:rerun-if-changed=headers/wrapper.h");
 
     let bindings = bindgen::Builder::default()
