@@ -25,13 +25,13 @@ fn main() {
       .build();
     println!("cargo:rustc-link-search=native={}", dst.join("lib").display());
     let suffix = match os {
-      Os::Windows => "release",
-      _ => "."
+      Os::Windows => env::var("PROFILE").unwrap().as_str().to_owned(),
+      _ => ".".to_owned()
     };
     println!("cargo:rustc-link-lib=static=espeak-ng");
-    println!("cargo:rustc-link-search=native={}", dst.join("build").join("src").join("speechPlayer").join(suffix).display());
+    println!("cargo:rustc-link-search=native={}", dst.join("build").join("src").join("speechPlayer").join(&suffix).display());
     println!("cargo:rustc-link-lib=static=speechPlayer");
-    println!("cargo:rustc-link-search=native={}", dst.join("build").join("src").join("ucd-tools").join(suffix).display());
+    println!("cargo:rustc-link-search=native={}", dst.join("build").join("src").join("ucd-tools").join(&suffix).display());
     println!("cargo:rustc-link-lib=static=ucd");
     if os==Os::MacOs {
       println!("cargo:rustc-link-lib=c++");
